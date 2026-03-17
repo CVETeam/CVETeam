@@ -3,9 +3,7 @@
 <!-- LOGO -->
 <img src="assets/cve.png" width="420" alt="CVE Team Logo"/>
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/CVETeam/CVETeam/main/assets/typing.svg" alt="Typing"/>
-</div>
+![Typing](https://raw.githubusercontent.com/CVETeam/CVETeam/main/assets/typing.svg)
 
 <br/>
 
