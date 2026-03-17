@@ -3,7 +3,7 @@
 <!-- LOGO -->
 <img src="assets/cve.png" width="420" alt="CVE Team Logo"/>
 
-### `> We hunt vulnerabilities before they hunt you.`
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Courier+New&size=22&duration=3000&pause=1000&color=C8FF00&center=true&vCenter=true&width=700&lines=We+hunt+vulnerabilities+before+they+hunt+you.;Silent.+Neon.+Deadly.;Always+hunting%2C+never+stopping.)](https://git.io/typing-svg)
 
 <br/>
 
