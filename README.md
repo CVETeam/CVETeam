@@ -19,7 +19,7 @@
   <img src="assets/logo.png" width="300" alt="CVE Team"/>
 </div>
 
-## `whoami`
+## `Who We Are`
 <div align="center">
   <img src="https://raw.githubusercontent.com/CVETeam/CVETeam/main/assets/terminal_bio.svg" alt="Terminal"/>
 </div>
