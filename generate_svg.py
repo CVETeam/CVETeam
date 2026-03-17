@@ -1,12 +1,13 @@
+
 import random, html
  
 text = "We hunt vulnerabilities before they hunt you."
-# Uniquement des glyphs XML-safe
-glyphs = list("!<>-_?#|@$%~^*+=")
+glyphs = list("!?#|@$%~^*+=-")
  
 FRAME_MS = 90
 SCRAMBLE_COUNT = 5
-total_duration = len(text) * FRAME_MS + SCRAMBLE_COUNT * FRAME_MS + 500
+total_ms = len(text) * FRAME_MS + SCRAMBLE_COUNT * FRAME_MS + 500
+total_s = total_ms / 1000
  
 width = 860
 height = 50
@@ -15,87 +16,82 @@ char_width = 10.85
 start_x = (width - len(text) * char_width) / 2
 y = 33
  
-css_rules = []
-char_elements = []
+elements = []
  
 for i, ch in enumerate(text):
     delay_ms = i * FRAME_MS
-    # Escape le caractère pour XML
     display_char = html.escape(ch) if ch != ' ' else '&#160;'
     glyph_char = html.escape(random.choice(glyphs))
- 
-    pct_start = round(delay_ms / total_duration * 100, 2)
-    pct_end   = round((delay_ms + SCRAMBLE_COUNT * FRAME_MS) / total_duration * 100, 2)
-    pct_final = pct_end
-    total_s   = total_duration / 1000
-    eps = 0.01
- 
-    css_rules.append(
-        f"@keyframes g{i}{{" 
-        f"0%,{max(0,pct_start-eps):.2f}%{{opacity:0}}"
-        f"{pct_start:.2f}%{{opacity:1}}"
-        f"{pct_end:.2f}%,100%{{opacity:0}}}}"
-        f"#g{i}{{animation:g{i} {total_s:.2f}s steps(1) forwards;opacity:0}}"
-    )
-    css_rules.append(
-        f"@keyframes f{i}{{" 
-        f"0%,{max(0,pct_final-eps):.2f}%{{opacity:0}}"
-        f"{pct_final:.2f}%,100%{{opacity:1}}}}"
-        f"#f{i}{{animation:f{i} {total_s:.2f}s steps(1) forwards;opacity:0}}"
-    )
- 
     x = start_x + i * char_width
-    char_elements.append(f'<text id="g{i}" x="{x:.1f}" y="{y}" fill="#39ff14">{glyph_char}</text>')
-    char_elements.append(f'<text id="f{i}" x="{x:.1f}" y="{y}" fill="#ffffff">{display_char}</text>')
  
-# Curseur
+    t_show   = round(delay_ms / total_ms, 4)
+    t_hide   = round((delay_ms + SCRAMBLE_COUNT * FRAME_MS) / total_ms, 4)
+    t_show   = max(0.0001, min(t_show, 0.9998))
+    t_hide   = max(t_show + 0.0001, min(t_hide, 0.9999))
+ 
+    eps = 0.0001
+ 
+    # Glyph vert (apparaît à t_show, disparaît à t_hide)
+    kt_g  = f"0;{max(0,t_show-eps):.4f};{t_show:.4f};{t_hide:.4f};{min(1,t_hide+eps):.4f};1"
+    val_g = "0;0;1;1;0;0"
+    elements.append(
+        f'<text x="{x:.1f}" y="{y}" font-family="Courier New,monospace" '
+        f'font-size="{font_size}" fill="#39ff14" opacity="0">'
+        f'<animate attributeName="opacity" values="{val_g}" keyTimes="{kt_g}" '
+        f'dur="{total_s:.2f}s" begin="0s" fill="freeze" calcMode="discrete"/>'
+        f'{glyph_char}</text>'
+    )
+ 
+    # Caractère blanc (apparaît à t_hide, reste)
+    kt_f  = f"0;{max(0,t_hide-eps):.4f};{t_hide:.4f};1"
+    val_f = "0;0;1;1"
+    elements.append(
+        f'<text x="{x:.1f}" y="{y}" font-family="Courier New,monospace" '
+        f'font-size="{font_size}" fill="#ffffff" opacity="0">'
+        f'<animate attributeName="opacity" values="{val_f}" keyTimes="{kt_f}" '
+        f'dur="{total_s:.2f}s" begin="0s" fill="freeze" calcMode="discrete"/>'
+        f'{display_char}</text>'
+    )
+ 
+# Curseur clignotant SMIL
 cursor_x = start_x + len(text) * char_width + 3
-css_rules.append("#cur{animation:blink 0.7s step-end infinite}@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}")
-cursor_el = f'<text id="cur" x="{cursor_x:.1f}" y="{y}" fill="#39ff14">|</text>'
+elements.append(
+    f'<text x="{cursor_x:.1f}" y="{y}" font-family="Courier New,monospace" '
+    f'font-size="{font_size}" fill="#39ff14">'
+    f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.49;0.5;1" '
+    f'dur="0.7s" repeatCount="indefinite" calcMode="discrete"/>'
+    f'|</text>'
+)
  
-# Préfixe
-prefix = "&gt;/ ! - "
-prefix_els = []
+# Préfixe ">/ ! -"
 raw_prefix = ">/ ! - "
 for pi, pc in enumerate(raw_prefix):
     px = start_x - (len(raw_prefix) - pi) * char_width
-    css_rules.append(
-        f"@keyframes pf{pi}{{0%,100%{{opacity:1}}{30+pi*7}%{{opacity:0.4}}}}"
-        f"#pf{pi}{{animation:pf{pi} {1.4+pi*0.15:.2f}s ease-in-out infinite}}"
+    dur = round(1.4 + pi * 0.15, 2)
+    elements.append(
+        f'<text x="{px:.1f}" y="{y}" font-family="Courier New,monospace" '
+        f'font-size="{font_size}" fill="#39ff14">'
+        f'<animate attributeName="opacity" values="1;0.4;1;0.9;1" '
+        f'keyTimes="0;0.25;0.5;0.75;1" dur="{dur}s" repeatCount="indefinite"/>'
+        f'{html.escape(pc)}</text>'
     )
-    prefix_els.append(f'<text id="pf{pi}" x="{px:.1f}" y="{y}" fill="#39ff14">{html.escape(pc)}</text>')
  
-css_block = (
-    "<style>"
-    "text{font-family:&apos;Courier New&apos;,monospace;font-size:18px}"
-    + "".join(css_rules)
-    + "</style>"
+svg = (
+    f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+    f'viewBox="0 0 {width} {height}">\n'
+    f'<rect width="{width}" height="{height}" fill="transparent"/>\n'
+    + "\n".join(elements)
+    + "\n</svg>"
 )
  
-parts = [
-    f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-    css_block,
-    f'<rect width="{width}" height="{height}" fill="transparent"/>',
-    "".join(prefix_els),
-    "".join(char_elements),
-    cursor_el,
-    "</svg>"
-]
- 
-svg = "\n".join(parts)
- 
-import os
-os.makedirs("/mnt/user-data/outputs/assets", exist_ok=True)
-with open("/mnt/user-data/outputs/assets/typing.svg", "w", encoding="utf-8") as f:
+import os, xml.etree.ElementTree as ET
+out = "/mnt/user-data/outputs/assets/typing.svg"
+os.makedirs(os.path.dirname(out), exist_ok=True)
+with open(out, "w", encoding="utf-8") as f:
     f.write(svg)
  
-size = os.path.getsize("/mnt/user-data/outputs/assets/typing.svg")
-print(f"OK — {size/1024:.1f} KB")
- 
-# Validate XML
-import xml.etree.ElementTree as ET
 try:
-    ET.parse("/mnt/user-data/outputs/assets/typing.svg")
-    print("XML valide ✓")
+    ET.parse(out)
+    print(f"OK — {os.path.getsize(out)/1024:.1f} KB — XML valide ✓")
 except ET.ParseError as e:
     print(f"XML invalide: {e}")
