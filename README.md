@@ -27,7 +27,9 @@
 </div>
 
 ## `whoami`
-
+<div align="center">
+  <img src="https://raw.githubusercontent.com/CVETeam/CVETeam/main/assets/terminal_bio.svg" alt="Terminal"/>
+</div>
 > **CVE Team** is an underground crew of offensive security researchers.  
 > We track vulnerabilities, reverse binaries, pwn machines — and document everything.
 
