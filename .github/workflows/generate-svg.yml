@@ -1,0 +1,32 @@
+
+name: Generate Typing SVG
+ 
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 0'  # regénère chaque dimanche (glyphs aléatoires)
+  workflow_dispatch:
+ 
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+ 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+ 
+      - name: Generate SVG
+        run: python3 generate_svg.py
+ 
+      - name: Commit SVG
+        run: |
+          git config user.name "CVETeam Bot"
+          git config user.email "bot@cveteam.dev"
+          git add assets/typing.svg
+          git diff --cached --quiet || git commit -m "chore: regenerate typing SVG"
+          git push
+ 
