@@ -9,7 +9,6 @@
 
 ![](https://img.shields.io/badge/HackTheBox-Team%20%237909-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=9FEF00&labelColor=0a0a0f)
 ![](https://img.shields.io/badge/Discord-Join%20us-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=0a0a0f)
-![](https://img.shields.io/badge/Threat%20Level-CRITICAL-ff003c?style=for-the-badge&labelColor=0a0a0f)
 
 </div>
 
