@@ -14,14 +14,11 @@
 
 ---
 
-```
-[SYS] Initializing CVE Team profile...
-[OK]  Identity    : CLASSIFIED
-[OK]  Location    : Somewhere in the dark web
-[OK]  Status      : Hunting 24/7
-[OK]  Objective   : Hunt before being hunted
-[!!]  THREAT DETECTED — proceeding anyway
-```
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/CVETeam/CVETeam/main/assets/terminal.svg" alt="Terminal"/>
+</div>
+
 
 ---
 
