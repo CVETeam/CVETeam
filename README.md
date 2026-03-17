@@ -33,11 +33,22 @@
 
 ## `whoami`
 
-> **CVE Team** est une crew underground de chercheurs en sécurité offensive.  
-> On traque les vulnérabilités, on reverse les binaires, on pwn les machines — et on documente tout.
+> **CVE Team** is an underground crew of offensive security researchers.  
+> We track vulnerabilities, reverse binaries, pwn machines — and document everything.
 
-On tryhard HackTheBox, on chase les certifications et les **Pro Labs**, et on ne s'arrête jamais d'apprendre.  
-Chaque CVE est une histoire. Chaque machine pwned est une leçon.
+We tryhard HackTheBox, chase certifications and **Pro Labs**, and never stop learning.  
+Every CVE is a story. Every pwned machine is a lesson.  
+We operate under a strict **ethical framework** — responsible disclosure only, no black hat activity.  
+Our mission: find vulnerabilities before they find you, and make the internet a safer place.
+
+
+> [!CAUTION]
+> **ETHICAL DISCLAIMER**  
+> CVE Team operates strictly within the boundaries of ethical security research.  
+> All tools, exploits, and research published in this organization are intended **solely for educational and authorized security testing purposes**.  
+> We do not condone, support, or engage in any form of illegal or unauthorized activity.  
+> Responsible disclosure is our standard — always.
+
 
 ---
 
