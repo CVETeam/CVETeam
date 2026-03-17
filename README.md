@@ -12,13 +12,6 @@
 
 </div>
 
----
-
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/CVETeam/CVETeam/main/assets/terminal.svg" alt="Terminal"/>
-</div>
-
 
 ---
 
